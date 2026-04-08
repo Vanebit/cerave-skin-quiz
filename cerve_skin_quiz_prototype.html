@@ -1,0 +1,210 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.phone-wrap { display: flex; justify-content: center; padding: 1.5rem 0; }
+.phone { width: 340px; background: var(--color-background-primary); border-radius: 32px; border: 0.5px solid var(--color-border-secondary); overflow: hidden; min-height: 620px; position: relative; display: flex; flex-direction: column; }
+.status-bar { background: #f9f9f6; padding: 10px 20px 6px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--color-text-secondary); }
+.screen { display: none; flex-direction: column; flex: 1; }
+.screen.active { display: flex; }
+.header { background: #1a4a3a; padding: 20px 20px 16px; color: white; }
+.header-logo { font-size: 11px; font-weight: 500; letter-spacing: 2px; opacity: 0.8; margin-bottom: 4px; }
+.header h2 { font-size: 18px; font-weight: 500; color: white; }
+.header p { font-size: 13px; opacity: 0.75; margin-top: 4px; }
+.progress-bar { height: 3px; background: rgba(255,255,255,0.2); margin-top: 14px; border-radius: 2px; }
+.progress-fill { height: 100%; background: #7ecbaa; border-radius: 2px; transition: width 0.3s; }
+.content { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
+.question { font-size: 16px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.subtitle { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 8px; }
+.option-btn { width: 100%; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 12px 14px; text-align: left; font-size: 14px; color: var(--color-text-primary); cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 10px; }
+.option-btn:hover { border-color: #1a4a3a; background: #f0faf5; }
+.option-btn.selected { border: 1.5px solid #1a4a3a; background: #e8f5ef; color: #1a4a3a; }
+.option-icon { font-size: 16px; width: 20px; }
+.nav-row { padding: 14px 20px; display: flex; gap: 10px; border-top: 0.5px solid var(--color-border-tertiary); }
+.btn-primary { flex: 1; background: #1a4a3a; color: white; border: none; border-radius: var(--border-radius-md); padding: 13px; font-size: 14px; font-weight: 500; cursor: pointer; }
+.btn-secondary { background: var(--color-background-secondary); color: var(--color-text-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 13px 16px; font-size: 14px; cursor: pointer; }
+.btn-primary:hover { background: #13382b; }
+.welcome-content { padding: 28px 20px 20px; flex: 1; display: flex; flex-direction: column; }
+.welcome-badge { display: inline-flex; align-items: center; gap: 6px; background: #e8f5ef; color: #1a4a3a; border-radius: 20px; padding: 5px 12px; font-size: 12px; font-weight: 500; margin-bottom: 20px; width: fit-content; }
+.welcome-title { font-size: 22px; font-weight: 500; color: var(--color-text-primary); line-height: 1.3; margin-bottom: 10px; }
+.welcome-sub { font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 24px; }
+.trust-row { display: flex; gap: 8px; margin-bottom: 24px; }
+.trust-item { flex: 1; background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px; text-align: center; font-size: 11px; color: var(--color-text-secondary); }
+.trust-item span { display: block; font-size: 18px; margin-bottom: 4px; }
+.result-hero { background: #1a4a3a; padding: 20px; color: white; }
+.result-badge { background: rgba(255,255,255,0.15); border-radius: 20px; display: inline-block; padding: 4px 12px; font-size: 11px; margin-bottom: 10px; }
+.result-title { font-size: 17px; font-weight: 500; color: white; }
+.result-sub { font-size: 13px; opacity: 0.75; margin-top: 4px; }
+.kit-label { font-size: 11px; font-weight: 500; letter-spacing: 1px; color: var(--color-text-secondary); text-transform: uppercase; margin-bottom: 10px; }
+.product-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 12px; display: flex; gap: 12px; align-items: flex-start; }
+.product-step { width: 26px; height: 26px; background: #1a4a3a; border-radius: 50%; color: white; font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.product-info .name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+.product-info .desc { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; line-height: 1.4; }
+.product-info .why { font-size: 11px; color: #1a4a3a; margin-top: 5px; background: #e8f5ef; padding: 3px 8px; border-radius: 10px; display: inline-block; }
+.timeline-row { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px 14px; display: flex; gap: 10px; align-items: center; }
+.timeline-dot { width: 8px; height: 8px; border-radius: 50%; background: #7ecbaa; flex-shrink: 0; }
+.timeline-text { font-size: 12px; color: var(--color-text-secondary); }
+.timeline-text b { color: var(--color-text-primary); font-weight: 500; }
+</style>
+
+<div class="phone-wrap">
+<div class="phone">
+  <div class="status-bar"><span>9:41</span><span>●●●</span></div>
+
+  <div class="screen active" id="s-welcome">
+    <div style="background:#1a4a3a; padding: 16px 20px 12px;">
+      <div style="font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.7);font-weight:500;">CERAVE</div>
+    </div>
+    <div class="welcome-content">
+      <div class="welcome-badge">✓ Dermatologist-developed</div>
+      <div class="welcome-title">Find your perfect skincare routine</div>
+      <div class="welcome-sub">Answer 4 quick questions and we'll build a simple starter kit made for your skin — no guesswork, no overwhelm.</div>
+      <div class="trust-row">
+        <div class="trust-item"><span>🧴</span>3-step routine</div>
+        <div class="trust-item"><span>⏱</span>60 seconds</div>
+        <div class="trust-item"><span>🔬</span>Science-backed</div>
+      </div>
+      <button class="btn-primary" onclick="goTo('s-q1')">Get started</button>
+      <p style="font-size:12px;color:var(--color-text-secondary);text-align:center;margin-top:12px;">No account needed</p>
+    </div>
+  </div>
+
+  <div class="screen" id="s-q1">
+    <div class="header">
+      <div class="header-logo">CERAVE</div>
+      <h2>Question 1 of 4</h2>
+      <p>Let's build your routine</p>
+      <div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div>
+    </div>
+    <div class="content">
+      <div class="question">How does your skin usually feel by midday?</div>
+      <div class="subtitle">Pick the one that sounds most like you</div>
+      <button class="option-btn" onclick="pick(this,'s-q2')"><span class="option-icon">✨</span>Tight or dry — craves moisture</button>
+      <button class="option-btn" onclick="pick(this,'s-q2')"><span class="option-icon">💧</span>Shiny or oily — especially on my forehead and nose</button>
+      <button class="option-btn" onclick="pick(this,'s-q2')"><span class="option-icon">⚖️</span>Combination — dry in some spots, oily in others</button>
+      <button class="option-btn" onclick="pick(this,'s-q2')"><span class="option-icon">🤷</span>Not sure — my skin is unpredictable</button>
+    </div>
+  </div>
+
+  <div class="screen" id="s-q2">
+    <div class="header">
+      <div class="header-logo">CERAVE</div>
+      <h2>Question 2 of 4</h2>
+      <p>Let's build your routine</p>
+      <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+    </div>
+    <div class="content">
+      <div class="question">Any specific skin concerns?</div>
+      <div class="subtitle">Select all that apply</div>
+      <button class="option-btn" onclick="toggle(this)"><span class="option-icon">🔴</span>Redness or sensitivity</button>
+      <button class="option-btn" onclick="toggle(this)"><span class="option-icon">🌑</span>Acne or breakouts</button>
+      <button class="option-btn" onclick="toggle(this)"><span class="option-icon">🌫️</span>Dullness or uneven texture</button>
+      <button class="option-btn" onclick="toggle(this)"><span class="option-icon">🌿</span>None — just want the basics</button>
+    </div>
+    <div class="nav-row">
+      <button class="btn-secondary" onclick="goTo('s-q1')">Back</button>
+      <button class="btn-primary" onclick="goTo('s-q3')">Next</button>
+    </div>
+  </div>
+
+  <div class="screen" id="s-q3">
+    <div class="header">
+      <div class="header-logo">CERAVE</div>
+      <h2>Question 3 of 4</h2>
+      <p>Let's build your routine</p>
+      <div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div>
+    </div>
+    <div class="content">
+      <div class="question">How much time can you give your routine?</div>
+      <div class="subtitle">Be honest — consistency matters more than complexity</div>
+      <button class="option-btn" onclick="pick(this,'s-q4')"><span class="option-icon">⚡</span>Under 2 minutes — keep it super simple</button>
+      <button class="option-btn" onclick="pick(this,'s-q4')"><span class="option-icon">🕐</span>5 minutes — a few steps are fine</button>
+      <button class="option-btn" onclick="pick(this,'s-q4')"><span class="option-icon">🧘</span>10+ minutes — I want the full experience</button>
+    </div>
+    <div class="nav-row">
+      <button class="btn-secondary" onclick="goTo('s-q2')">Back</button>
+    </div>
+  </div>
+
+  <div class="screen" id="s-q4">
+    <div class="header">
+      <div class="header-logo">CERAVE</div>
+      <h2>Question 4 of 4</h2>
+      <p>Last one!</p>
+      <div class="progress-bar"><div class="progress-fill" style="width:90%"></div></div>
+    </div>
+    <div class="content">
+      <div class="question">Have you used CeraVe (or any skincare) before?</div>
+      <div class="subtitle">No wrong answer — this helps us explain products clearly</div>
+      <button class="option-btn" onclick="pick(this,'s-result')"><span class="option-icon">🌱</span>Complete beginner — totally new to this</button>
+      <button class="option-btn" onclick="pick(this,'s-result')"><span class="option-icon">🧪</span>Tried a few things but nothing stuck</button>
+      <button class="option-btn" onclick="pick(this,'s-result')"><span class="option-icon">📋</span>I have a routine but want to improve it</button>
+    </div>
+    <div class="nav-row">
+      <button class="btn-secondary" onclick="goTo('s-q3')">Back</button>
+    </div>
+  </div>
+
+  <div class="screen" id="s-result">
+    <div class="result-hero">
+      <div class="header-logo" style="color:rgba(255,255,255,0.7);font-size:11px;letter-spacing:2px;">CERAVE</div>
+      <div style="margin-top:10px;">
+        <div class="result-badge">Your starter kit is ready</div>
+        <div class="result-title">Gentle Hydration Routine</div>
+        <div class="result-sub">3 steps · ~2 min · Beginner-friendly</div>
+      </div>
+    </div>
+    <div class="content" style="gap:10px;">
+      <div class="kit-label">Morning + Evening routine</div>
+      <div class="product-card">
+        <div class="product-step">1</div>
+        <div class="product-info">
+          <div class="name">Hydrating Cleanser</div>
+          <div class="desc">A non-foaming, gentle wash that cleans without stripping your skin's natural barrier.</div>
+          <div class="why">Good for dry + sensitive skin</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-step">2</div>
+        <div class="product-info">
+          <div class="name">Moisturizing Cream</div>
+          <div class="desc">Rich, non-greasy formula with hyaluronic acid and ceramides to lock in moisture all day.</div>
+          <div class="why">Repairs your skin barrier</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-step">3</div>
+        <div class="product-info">
+          <div class="name">AM Facial Moisturizing Lotion SPF 30</div>
+          <div class="desc">Lightweight SPF for mornings — protects without feeling heavy or clogging pores.</div>
+          <div class="why">SPF is the #1 anti-aging step</div>
+        </div>
+      </div>
+      <div class="kit-label" style="margin-top:4px;">What to expect</div>
+      <div class="timeline-row"><div class="timeline-dot"></div><div class="timeline-text"><b>Week 1–2:</b> Skin feels less tight and more comfortable</div></div>
+      <div class="timeline-row"><div class="timeline-dot"></div><div class="timeline-text"><b>Week 3–4:</b> Texture starts to improve, fewer dry patches</div></div>
+      <div class="timeline-row"><div class="timeline-dot"></div><div class="timeline-text"><b>Month 2+:</b> Barrier is stronger — skin looks healthier overall</div></div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-secondary" onclick="goTo('s-welcome')">Retake</button>
+      <button class="btn-primary">Save my routine</button>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function pick(btn, next) {
+  btn.closest('.content').querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  setTimeout(() => goTo(next), 300);
+}
+function toggle(btn) {
+  btn.classList.toggle('selected');
+}
+</script>
